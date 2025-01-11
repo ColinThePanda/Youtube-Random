@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Channel Information</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>YouTube Channel Information</h1>
+
+    <label for="username-input">Enter YouTube Handle (@username): </label>
+    <input type="text" id="username-input" placeholder="e.g., @dougdoug" />
+    <button id="search-btn">Search</button>
+
+    <div id="user-info" style="display:none;"></div>
+
+    <div id="filter-options" style="display:none;">
+        <h2>Filter Options</h2>
+
+        <label>
+            Minimum Views:
+            <input type="number" id="min-views" placeholder="e.g., 1000" style="width: 160px;" />
+        </label>
+        <br>
+
+        <label>
+            Maximum Age (Years):
+            <input type="number" id="max-years" placeholder="e.g., 5" style="width: 160px;" />
+        </label>
+        <br>
+
+        <label>
+            Minimum Likes:
+            <input type="number" id="min-likes" placeholder="e.g., 100" style="width: 160px;" />
+        </label>
+        <br>
+
+        <label>
+            Maximum Duration (Minutes):
+            <input type="number" id="max-duration" placeholder="e.g., 10" style="width: 160px;" />
+        </label>
+        <br>
+
+        <button id="apply-filters">Apply Filters</button>
+        <span id="filter-status" style="display:none;">✔ Filters Applied</span>
+    </div>
+
+    <button id="get-random-video" style="display:none;">Get Random Video</button>
+    <div id="random-video"></div>
+
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* Dark Theme Style */
+body {
+    background-color: #121212;
+    color: #f1f1f1;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #00b0b0;
+}
+
+label, input {
+    font-size: 16px;
+    margin: 10px;
+    color: #ddd;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 5px;
+    width: 160px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+button {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #4682b4;
+}
+
+#user-info, #filter-options, #random-video {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #1e90ff;
+    background-color: #2a2a2a;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+a {
+    color: #1e90ff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#filter-status {
+    color: #32CD32;
+    font-size: 18px;
+    margin-left: 10px;
+}
