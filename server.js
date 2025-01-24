@@ -45,8 +45,13 @@ app.get('/api/search', async (req, res) => {
 
 // Serve the main HTML file for any unspecified route (for client-side)
 app.get('*', (req, res) => {
-    // Use path.resolve to get an absolute path to index.html
-    res.sendFile(resolve(__dirname, 'public', 'index.html'));
+    const indexPath = resolve(__dirname, 'public', 'index.html');
+    console.log('Resolved path:', indexPath); // Debugging output
+    res.sendFile(indexPath, (err) => {
+        if (err) {
+            console.error('Error sending file:', err);
+        }
+    });
 });
 
 // Start the server
