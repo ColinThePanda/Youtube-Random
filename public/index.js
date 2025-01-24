@@ -1,4 +1,4 @@
-const API_KEY = process.env.API_KEY;
+const API_KEY = 'API_KEY_IS_NO_LONGER_NEEDED_IN_CLIENT_JS';
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-btn').addEventListener('click', () => {
@@ -39,6 +39,7 @@ async function getUserInfo(username) {
         document.getElementById('user-info').innerHTML = `Error: ${error.message}`;
     }
 }
+
 
 
 async function getRandomVideo() {
