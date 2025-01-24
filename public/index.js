@@ -1,14 +1,10 @@
-const apiKey = process.env.API_KEY;
-
+const apiKey = ''; // Do not use API key directly in client-side JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-btn').addEventListener('click', () => {
         const username = document.getElementById('username-input').value;
         getUserInfo(username);
     });
-
-    document.getElementById('get-random-video').addEventListener('click', getRandomVideo);
-    document.getElementById('apply-filters').addEventListener('click', applyFilters);
 });
 
 async function getUserInfo(username) {
@@ -19,7 +15,7 @@ async function getUserInfo(username) {
         }
 
         const handle = username.replace('@', '');
-        const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&q=${handle}&type=channel&part=snippet`;
+        const searchUrl = `/api/search?handle=${handle}`; // Call the server-side API
 
         const searchResponse = await fetch(searchUrl);
         if (searchResponse.status === 403) throw new Error("API quota exceeded");
@@ -32,36 +28,18 @@ async function getUserInfo(username) {
 
         const channel = searchData.items[0];
         const channelId = channel.id.channelId;
-        const channelUrl = `https://www.googleapis.com/youtube/v3/channels?key=${apiKey}&id=${channelId}&part=snippet,statistics`;
-
-        const channelResponse = await fetch(channelUrl);
-        if (channelResponse.status === 403) throw new Error("API quota exceeded");
-
-        const channelData = await channelResponse.json();
-        if (!channelData.items || channelData.items.length === 0) {
-            document.getElementById('user-info').innerHTML = 'Could not retrieve channel details.';
-            return;
-        }
-
-        const user = channelData.items[0];
         const userInfo = `
             <h2>Channel Info</h2>
-            <p><strong>Channel Name:</strong> ${user.snippet.title}</p>
-            <p><strong>Subscribers:</strong> ${user.statistics.subscriberCount}</p>
-            <p><strong>Total Views:</strong> ${user.statistics.viewCount}</p>
-            <p><strong>Number of Videos:</strong> ${user.statistics.videoCount}</p>
+            <p><strong>Channel Name:</strong> ${channel.snippet.title}</p>
+            <p><strong>Channel ID:</strong> ${channelId}</p>
         `;
         document.getElementById('user-info').innerHTML = userInfo;
-
-        document.getElementById('user-info').style.display = 'block';
-        document.getElementById('get-random-video').style.display = 'inline-block';
-        document.getElementById('filter-options').style.display = 'block';
-        window.channelId = user.id;
 
     } catch (error) {
         document.getElementById('user-info').innerHTML = `Error: ${error.message}`;
     }
 }
+
 
 async function getRandomVideo() {
     try {
