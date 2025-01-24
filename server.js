@@ -1,9 +1,15 @@
-const express = require('express');
-const path = require('path');
-const fetch = require('node-fetch'); // Use node-fetch to make requests to YouTube API
-require('dotenv').config();
-const app = express();
+import express from 'express';
+import { join, dirname } from 'path';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
+// Load environment variables from a .env file
+dotenv.config();
+
+// Use import.meta.url to get the directory name in ES Modules
+const __dirname = dirname(import.meta.url);
+
+const app = express();
 const PORT = process.env.PORT || 3000; // Use environment port or fallback to 3000
 const API_KEY = process.env.API_KEY; // Set your API key here (ensure it's set in environment)
 
@@ -13,7 +19,7 @@ if (!API_KEY) {
 }
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 // API route to search YouTube channels
 app.get('/api/search', async (req, res) => {
@@ -39,7 +45,7 @@ app.get('/api/search', async (req, res) => {
 
 // Serve the main HTML file for any unspecified route (for client-side)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
 // Start the server

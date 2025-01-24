@@ -1,4 +1,4 @@
-const apiKey = ''; // Do not use API key directly in client-side JavaScript
+const API_KEY = process.env.API_KEY;
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-btn').addEventListener('click', () => {
@@ -51,7 +51,7 @@ async function getRandomVideo() {
 
         // Fetch multiple pages of results
         do {
-            const url = `https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${window.channelId}&order=date&part=snippet&type=video&maxResults=${maxResults}&pageToken=${nextPageToken || ''}`;
+            const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${window.channelId}&order=date&part=snippet&type=video&maxResults=${maxResults}&pageToken=${nextPageToken || ''}`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -109,7 +109,7 @@ async function filterVideos(videos) {
     let allVideoData = [];
     for (const chunk of chunkedVideoIds) {
         const ids = chunk.join(',');
-        const statsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${apiKey}&id=${ids}&part=statistics,snippet,contentDetails`;
+        const statsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${ids}&part=statistics,snippet,contentDetails`;
         const statsResponse = await fetch(statsUrl);
         const statsData = await statsResponse.json();
         if (statsData.items) {
