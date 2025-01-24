@@ -1,5 +1,3 @@
-const API_KEY = 'API_KEY_IS_NO_LONGER_NEEDED_IN_CLIENT_JS';
-
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search-btn').addEventListener('click', () => {
         const username = document.getElementById('username-input').value;
@@ -40,8 +38,6 @@ async function getUserInfo(username) {
     }
 }
 
-
-
 async function getRandomVideo() {
     try {
         console.log('Fetching random video for channel ID:', window.channelId);
@@ -52,7 +48,7 @@ async function getRandomVideo() {
 
         // Fetch multiple pages of results
         do {
-            const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${window.channelId}&order=date&part=snippet&type=video&maxResults=${maxResults}&pageToken=${nextPageToken || ''}`;
+            const url = `/api/randomVideo?channelId=${window.channelId}&pageToken=${nextPageToken || ''}`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -90,63 +86,4 @@ async function getRandomVideo() {
         console.error('Error fetching random video:', error);
         document.getElementById('random-video').innerHTML = `Error: ${error.message}`;
     }
-}
-
-async function filterVideos(videos) {
-    const minViews = parseInt(document.getElementById('min-views').value, 10) || 0;
-    const maxYears = parseInt(document.getElementById('max-years').value, 10) || 0;
-    const minLikes = parseInt(document.getElementById('min-likes').value, 10) || 0;
-    const maxDuration = parseInt(document.getElementById('max-duration').value, 10) || 0;
-
-    const currentDate = new Date();
-    const videoIds = videos.map(video => video.id.videoId);
-
-    // Split the videoIds into chunks of 50
-    const chunkedVideoIds = [];
-    for (let i = 0; i < videoIds.length; i += 50) {
-        chunkedVideoIds.push(videoIds.slice(i, i + 50));
-    }
-
-    let allVideoData = [];
-    for (const chunk of chunkedVideoIds) {
-        const ids = chunk.join(',');
-        const statsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${ids}&part=statistics,snippet,contentDetails`;
-        const statsResponse = await fetch(statsUrl);
-        const statsData = await statsResponse.json();
-        if (statsData.items) {
-            allVideoData = allVideoData.concat(statsData.items);
-        }
-    }
-
-    return allVideoData.filter(video => {
-        const viewCount = parseInt(video.statistics.viewCount, 10);
-        const likeCount = parseInt(video.statistics.likeCount || '0', 10);
-        const publishedDate = new Date(video.snippet.publishedAt);
-        const videoAgeYears = (currentDate - publishedDate) / (1000 * 60 * 60 * 24 * 365);
-
-        // Duration in ISO 8601 format, convert to seconds
-        const durationISO = video.contentDetails.duration;
-        const durationSeconds = convertISO8601ToSeconds(durationISO);
-
-        let keep = true;
-        if (minViews && viewCount < minViews) keep = false;
-        if (maxYears && videoAgeYears > maxYears) keep = false;
-        if (minLikes && likeCount < minLikes) keep = false;
-        if (maxDuration && durationSeconds / 60 > maxDuration) keep = false;
-
-        return keep;
-    });
-}
-
-function convertISO8601ToSeconds(duration) {
-    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-    const hours = parseInt(match[1]) || 0;
-    const minutes = parseInt(match[2]) || 0;
-    const seconds = parseInt(match[3]) || 0;
-    return hours * 3600 + minutes * 60 + seconds;
-}
-
-function applyFilters() {
-    // Display the check mark once filters are applied
-    document.getElementById('filter-status').style.display = 'inline-block';
 }
