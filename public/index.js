@@ -13,7 +13,7 @@ async function getUserInfo(username) {
         }
 
         const handle = username.replace('@', '');
-        const searchUrl = `/api/search?handle=${handle}`; // Call the server-side API
+        const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${handle}&type=channel&part=snippet`; // Call the server-side API
 
         const searchResponse = await fetch(searchUrl);
         if (searchResponse.status === 403) throw new Error("API quota exceeded");
