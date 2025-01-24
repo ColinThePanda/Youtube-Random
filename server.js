@@ -2,12 +2,14 @@ import express from 'express';
 import { join, dirname } from 'path';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 
 // Load environment variables from a .env file
 dotenv.config();
 
 // Use import.meta.url to get the directory name in ES Modules
-const __dirname = dirname(import.meta.url);
+const __filename = fileURLToPath(import.meta.url); // Convert file URL to path
+const __dirname = dirname(__filename); // Get directory name
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Use environment port or fallback to 3000
