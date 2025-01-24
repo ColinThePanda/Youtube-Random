@@ -1,5 +1,5 @@
 import express from 'express';
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
@@ -45,7 +45,8 @@ app.get('/api/search', async (req, res) => {
 
 // Serve the main HTML file for any unspecified route (for client-side)
 app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'index.html'));
+    // Use path.resolve to get an absolute path to index.html
+    res.sendFile(resolve(__dirname, 'public', 'index.html'));
 });
 
 // Start the server
